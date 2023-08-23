@@ -1,162 +1,266 @@
-# RiZoeL X - Telegram Projects
-# (c) 2022 - 2023 RiZoeL
+import asyncio
 
-import os, sys, asyncio
 from random import choice
-from .. import (Owner, handler, Sudos, LOGS_CHANNEL, DATABASE_URL)
-from pyrogram import Client, filters
-from pyrogram.types import Message
 
-from RiZoeLX.data import raid_usage, raids
-from RiZoeLX import Devs, res_grps
-from RiZoeLX.functions import user_only, start_raid
+from telethon import events
 
-from SpamX.database import raid_db
+from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, SUDO_USERS, OWNER_ID, CMD_HNDLR as hl
+from WBNBots.data import RAID, REPLYRAID, ALTRON, MRAID, SRAID, CRAID, WBN
 
-@Client.on_message(filters.user(Sudos) & filters.command(["raid"], prefixes=handler))
-@Client.on_message(filters.me & filters.command(["raid"], prefixes=handler))
-async def raid(SpamX: Client, e: Message):
-      """ Start Raid """
-      usage = raid_usage.raid
-      Rizoel = "".join(e.text.split(maxsplit=1)[1:]).split(" ", 2)
-      if len(Rizoel) == 2:
-        counts = int(Rizoel[0])
-        if not counts:
-          await e.reply_text(f"Gime raid Counts or use `{handler}.uraid` for Unlimited raid!")
-          return
-        hm = Rizoel[1]
-        if not hm:
-          await e.reply_text("you need to specify an user! Reply to any user or gime id/username")
-          return
+REPLY_RAID = []
+
+
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%sraid(?: |$)(.*)" % hl))
+async def raid(e):
+    if e.sender_id in SUDO_USERS:
+        xraid = e.text.split(" ", 2)
+
+        if len(xraid) == 3:
+            entity = await e.client.get_entity(xraid[2])
+            uid = entity.id
+
+        elif e.reply_to_msg_id:             
+            a = await e.get_reply_message()
+            entity = await e.client.get_entity(a.sender_id)
+            uid = entity.id
+
         try:
-           user = await SpamX.get_users(Rizoel[1])
-        except:
-           await e.reply_text("**Error:** User not found!")
-           return
-      elif e.reply_to_message:
-        counts = int(Rizoel[0])
+            if uid in WBN:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ bots'ꜱ ᴏᴡɴᴇʀ.")
+            elif uid == OWNER_ID:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴏwner ᴏꜰ ᴛʜᴇꜱᴇ ʙᴏᴛꜱ.")
+            elif uid in SUDO_USERS:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴀ ꜱᴜᴅᴏ ᴜꜱᴇʀ.")
+            else:
+                first_name = entity.first_name
+                counter = int(xraid[1])
+                username = f"[{first_name}](tg://user?id={uid})"
+                for _ in range(counter):
+                    reply = choice(RAID)
+                    caption = f"{username} {reply}"
+                    await e.client.send_message(e.chat_id, caption)
+                    await asyncio.sleep(0.1)
+        except (IndexError, ValueError, NameError):
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐑𝐚𝐢𝐝\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
+        except Exception as e:
+            print(e)
+
+
+@X1.on(events.NewMessage(incoming=True))
+@X2.on(events.NewMessage(incoming=True))
+@X3.on(events.NewMessage(incoming=True))
+@X4.on(events.NewMessage(incoming=True))
+@X5.on(events.NewMessage(incoming=True))
+@X6.on(events.NewMessage(incoming=True))
+@X7.on(events.NewMessage(incoming=True))
+@X8.on(events.NewMessage(incoming=True))
+@X9.on(events.NewMessage(incoming=True))
+@X10.on(events.NewMessage(incoming=True))
+async def _(event):
+    global REPLY_RAID
+    check = f"{event.sender_id}_{event.chat_id}"
+    if check in REPLY_RAID:
+        await asyncio.sleep(0.1)
+        await event.client.send_message(
+            entity=event.chat_id,
+            message="""{}""".format(choice(REPLYRAID)),
+            reply_to=event.message.id,
+        )
+
+
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%srraid(?: |$)(.*)" % hl))
+async def rraid(e):
+    if e.sender_id in SUDO_USERS:
+        mkrr = e.text.split(" ", 1)
+        if len(mkrr) == 2:
+            entity = await e.client.get_entity(mkrr[1])
+
+        elif e.reply_to_msg_id:             
+            a = await e.get_reply_message()
+            entity = await e.client.get_entity(a.sender_id)
+
         try:
-           user = await SpamX.get_users(e.reply_to_message.from_user.id)
-        except:
-           user = e.reply_to_message.from_user 
-      else:
-        await e.reply_text(usage.format(handler))
-        return
-
-      if int(user.id) == Owner:
-         await e.reply_text("This guy is Owner Of these Bots.")
-         return
-      if int(user.id) in Sudos:
-         if e.from_user.id != Owner:
-           await e.reply_text("This guy is a sudo users.")
-           return
-
-      await start_raid(SpamX, e, counts, user)
-
-      if LOGS_CHANNEL:
-         try:
-            await SpamX.send_message(LOGS_CHANNEL, f"started Raid By User: {e.from_user.id} \n\n On User: {mention} \n Chat: {e.chat.id} \n Counts: {counts}")
-         except Exception as a:
-            print(a)
-            pass
+            user_id = entity.id
+            if user_id in WBN:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ bot'ꜱ ᴏᴡɴᴇʀ.")
+            elif user_id == OWNER_ID:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴏᴡɴᴇʀ ᴏꜰ ᴛʜᴇꜱᴇ ʙᴏᴛꜱ.")
+            elif user_id in SUDO_USERS:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴀ ꜱᴜᴅᴏ ᴜꜱᴇʀ.")
+            else:
+                global REPLY_RAID
+                check = f"{user_id}_{e.chat_id}"
+                if check not in REPLY_RAID:
+                    REPLY_RAID.append(check)
+                await e.reply("» msg to karo baby !! ")
+        except NameError:
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐑𝐞𝐩𝐥𝐲𝐑𝐚𝐢𝐝\n  » {hl}rraid <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}rraid <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
 
 
-RUSERs = []
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%sdrraid(?: |$)(.*)" % hl))
+async def drraid(e):
+    if e.sender_id in SUDO_USERS:
+        text = e.text.split(" ", 1)
 
-@Client.on_message(filters.user(Sudos) & filters.command(["rraid", "replyraid"], prefixes=handler))
-@Client.on_message(filters.me & filters.command(["rraid", "replyraid"], prefixes=handler))
-async def rraid(SpamX: Client, e: Message):
-      global RUSERs
-      user = await user_only(SpamX, e, Owner, Sudos)
+        if len(text) == 2:
+            entity = await e.client.get_entity(text[1])
+        elif e.reply_to_msg_id:             
+            a = await e.get_reply_message()
+            entity = await e.client.get_entity(a.sender_id)
 
-      if DATABASE_URL:
-          check = raid_db.check(user.id)
-          if check:
-             await e.reply_text("User already in Raid list!")
-             return
-          raid_db.add_user(user.id)
-      else:
-          if int(user.id) in RUSERs:
-             await e.reply_text("User already in Raid list!")
-             return
-          RUSERs.append(user.id)                
-      mention = user.mention
-      await e.reply_text(f"Reply Raid Activated On User {mention}")
-            
-      if LOGS_CHANNEL:
-         try:
-            await SpamX.send_message(LOGS_CHANNEL, f"Activated Reply Raid By User: {e.from_user.id} \n\n On User: {mention} \n Chat: {e.chat.id}")
-         except Exception as a:
-             print(a)
-             pass
+        try:
+            check = f"{entity.id}_{e.chat_id}"
+            global REPLY_RAID
+            if check in REPLY_RAID:
+                REPLY_RAID.remove(check)
+            await e.reply("» randi ki chudai done !!")
+        except NameError:
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐃𝐑𝐞𝐩𝐥𝐲𝐑𝐚𝐢𝐝\n  » {hl}drraid <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}drraid <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
 
 
-@Client.on_message(filters.user(Sudos) & filters.command(["draid", "dreplyraid"], prefixes=handler))
-@Client.on_message(filters.me & filters.command(["draid", "dreplyraid"], prefixes=handler))
-async def draid(SpamX: Client, e: Message):
-      global RUSERs
-      user = await user_only(SpamX, e, Owner, Sudos)
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%smraid(?: |$)(.*)" % hl))
+async def mraid(e):
+    if e.sender_id in SUDO_USERS:
+        xraid = e.text.split(" ", 2)
 
-      if DATABASE_URL:
-         check = raid_db.check(user.id)
-         if not check:
-             await e.reply_text("User not in Raid list!")
-             return 
-         raid_db.rm_user(user.id)
-      else:
-         if int(user.id) not in RUSERs:
-           await e.reply_text("User not in Raid list!")
-           return
-         RUSERs.remove(user.id)
-      mention = user.mention
-      await e.reply_text(f"Reply Raid Activated Successfully On User {mention}")
-      
-      if LOGS_CHANNEL:
-         try:
-            await SpamX.send_message(LOGS_CHANNEL, f" Deactivated Reply Raid By User: {e.from_user.id} \n\n User: {mention} \n Chat: {e.chat.id}")
-         except Exception as a:
-             print(a)
-             pass
+        if len(xraid) == 3:
+            entity = await e.client.get_entity(xraid[2])
+            uid = entity.id
 
-@Client.on_message(filters.all)
-async def watcher(_, msg: Message):
-    global RUSERs
-    if int(msg.chat.id) in res_grps:
-       return
-    if DATABASE_URL:
-       check = raid_db.check(msg.from_user.id)
-       if check:
-         await msg.reply_text(choice(raids.replyraids))
-    else:
-       if int(msg.from_user.id) in RUSERs:
-         await msg.reply_text(choice(raids.replyraids))       
+        elif e.reply_to_msg_id:             
+            a = await e.get_reply_message()
+            entity = await e.client.get_entity(a.sender_id)
+            uid = entity.id
 
-@Client.on_message(filters.user(Sudos) & filters.command(["rlist", "raidlist"], prefixes=handler))
-@Client.on_message(filters.me & filters.command(["rlist", "raidlist"], prefixes=handler))
-async def raidlist(SpamX: Client, message: Message):
-    global RUSERs
-    _reply = "**Raid users list - SpamX** \n\n"
-    if DATABASE_URL:
-       data = raid_db.get_all_raiders()
-       if len(data) > 0:
-          for x in data:
-             try:
-                user = await SpamX.get_users(x.user_id)
-                _reply += f" × {user.mention} \n"
-             except:
-                _reply += f" × [{x.user_id}](tg://user?id={x.user_id}) \n"
-       else:
-          await message.reply_text("Not yet!")
-          return
-    else:
-       if len(RUSERs) > 0:
-          for x in RUSERs:
-             try:
-                user = await SpamX.get_users(x)
-                _reply += f" × {user.mention} \n"
-             except:
-                _reply += f" × [{x}](tg://user?id={x}) \n"
-       else:
-          await message.reply_text("Not yet!")
-          return
-    await message.reply_text(_reply)
+        try:
+            first_name = entity.first_name
+            counter = int(xraid[1])
+            username = f"[{first_name}](tg://user?id={uid})"
+            for _ in range(counter):
+                reply = choice(MRAID)
+                caption = f"{username} {reply}"
+                await e.client.send_message(e.chat_id, caption)
+                await asyncio.sleep(0.1)
+        except (IndexError, ValueError, NameError):
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝗠𝗥𝗮𝗶𝗱\n  » {hl}mraid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}mraid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
+        except Exception as e:
+            print(e)
+
+
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%ssraid(?: |$)(.*)" % hl))
+async def sraid(e):
+     if e.sender_id in SUDO_USERS:
+        xraid = e.text.split(" ", 2)
+
+        if len(xraid) == 3:
+            entity = await e.client.get_entity(xraid[2])
+            uid = entity.id
+
+        elif e.reply_to_msg_id:             
+            a = await e.get_reply_message()
+            entity = await e.client.get_entity(a.sender_id)
+            uid = entity.id
+
+        try:
+            first_name = entity.first_name
+            counter = int(xraid[1])
+            username = f"[{first_name}](tg://user?id={uid})"
+            for _ in range(counter):
+                reply = choice(SRAID)
+                caption = f"{username} {reply}"
+                await e.client.send_message(e.chat_id, caption)
+                await asyncio.sleep(0.1)
+        except (IndexError, ValueError, NameError):
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝗦𝗥𝗮𝗶𝗱\n  » {hl}sraid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}sraid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
+        except Exception as e:
+            print(e)
+
+
+@X1.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X2.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X3.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X4.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X5.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X6.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X7.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X8.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X9.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+@X10.on(events.NewMessage(incoming=True, pattern=r"\%scraid(?: |$)(.*)" % hl))
+async def craid(e):
+    if e.sender_id in SUDO_USERS:
+        xraid = e.text.split(" ", 2)
+
+        if len(xraid) == 3:
+            entity = await e.client.get_entity(xraid[2])
+            uid = entity.id
+
+        elif e.reply_to_msg_id:             
+            a = await e.get_reply_message()
+            entity = await e.client.get_entity(a.sender_id)
+            uid = entity.id
+
+        try:
+            if uid in WBN:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ bot'ꜱ ᴏᴡɴᴇʀ.")
+            elif uid == OWNER_ID:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴏᴡɴᴇʀ ᴏꜰ ᴛʜᴇꜱᴇ ʙᴏᴛꜱ.")
+            elif uid in SUDO_USERS:
+                await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴀ ꜱᴜᴅᴏ ᴜꜱᴇʀ.")
+            else:
+                first_name = entity.first_name
+                counter = int(xraid[1])
+                username = f"[{first_name}](tg://user?id={uid})"
+                for _ in range(counter):
+                    reply = choice(CRAID)
+                    caption = f"{username} {reply}"
+                    await e.client.send_message(e.chat_id, caption)
+                    await asyncio.sleep(0.1)
+        except (IndexError, ValueError, NameError):
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐂𝗥𝗮𝗶𝗱\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
+        except Exception as e:
+            print(e)
