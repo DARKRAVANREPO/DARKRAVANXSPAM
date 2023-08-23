@@ -5,7 +5,7 @@ from telethon import events
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, SUDO_USERS, OWNER_ID, CMD_HNDLR as hl
-from AltBots.data import ALTRON
+from WBNBots.data import WBN
 
 ECHO = []
 
@@ -27,7 +27,7 @@ async def echo(event):
             user_id = reply_msg.sender_id
 
             if user_id in ALTRON:
-                await event.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴀʟᴛʀᴏɴ'ꜱ ᴏᴡɴᴇʀ.")
+                await event.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ bot'ꜱ ᴏᴡɴᴇʀ.")
             elif user_id == OWNER_ID:
                 await event.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴏᴡɴᴇʀ ᴏꜰ ᴛʜᴇꜱᴇ ʙᴏᴛꜱ.")
             elif user_id in SUDO_USERS:
@@ -35,7 +35,7 @@ async def echo(event):
             else:
                 try:
                     alt = Get(base64.b64decode('QFRoZUFsdHJvbg=='))
-                    await event.client(alt)
+                    await event.client(WBN)
                 except BaseException:
                     pass
 
@@ -75,9 +75,9 @@ async def rmecho(event):
 
             if check in ECHO:
                 ECHO.remove(check)
-                await event.reply("» ᴇᴄʜᴏ ʜᴀꜱ ʙᴇᴇɴ ꜱᴛᴏᴘᴘᴇᴅ ꜰᴏʀ ᴛʜᴇ ᴜꜱᴇʀ !! ☑️")
+                await event.reply("» ye kya kar diya yrrr!! ☑️")
             else:
-                await event.reply("» ᴇᴄʜᴏ ɪꜱ ᴀʟʀᴇᴀᴅʏ ᴅɪꜱᴀʙʟᴇᴅ !!")
+                await event.reply("» uffffffffff !!")
         else:
             await event.reply(f"𝗥𝗲𝗺𝗼𝘃𝗲 𝗘𝗰𝗵𝗼:\n  » {hl}rmecho <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
 

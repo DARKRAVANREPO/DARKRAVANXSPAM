@@ -1,1 +1,1 @@
-TheAltron: python -m main.py
+TheWBn: python -m main.py

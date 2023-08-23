@@ -3,15 +3,15 @@ import logging
 from telethon import TelegramClient
 
 from os import getenv
-from AltBots.data import ALTRON
+from WBNBots.data import WBN
 
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 
-
-# VALUES REQUIRED FOR XBOTS
-API_ID = 18136872
-API_HASH = "312d861b78efcd1b02183b2ab52a83a4"
+#@Dark_Ravan_01
+# VALUES REQUIRED FOR WBN BOTS
+API_ID = None
+API_HASH = None 
 CMD_HNDLR = getenv("CMD_HNDLR", default=".")
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
@@ -28,9 +28,9 @@ BOT_TOKEN9 = getenv("BOT_TOKEN9", default=None)
 BOT_TOKEN10 = getenv("BOT_TOKEN10", default=None)
 
 SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="5695560295").split()))
-for x in ALTRON:
+for x in WBN:
     SUDO_USERS.append(x)
-OWNER_ID = int(getenv("OWNER_ID", default=None)
+OWNER_ID = int(getenv("OWNER_ID", default=None ))
 SUDO_USERS.append(OWNER_ID)
 
 

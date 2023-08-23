@@ -5,15 +5,16 @@ from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10
 
 START_BUTTON = [
     [
-        Button.inline("• ᴄᴏᴍᴍᴀɴᴅs •", data="help_back")
+        Button.inline("• COMMANDS •", data="help_back")
+    ],
+    [
+        Button.url("• NETWORK •", "https://t.me/THE_WEBNET_NETWORK"),
+        Button.url("• GROUP •", "https://t.me/WEB_NET_CHATMASTI"),
     ],
     [
         Button.url("• CONTACT BOT •", "https://t.me/WEBNET_CONTACT_BOT"),
-        Button.url("• GROUP •", "https://t.me/WEB_NET_CHATMASTI")
-    ],
-    [
-        Button.url("• NETWORK •", "https://t.me/THE_WEBNET_NETWORK")
-    ]   
+        Button.url("• DEVELOPER •", " https://t.me/WEB_NET_CHATMASTI")
+    ]
 ]
 
 
@@ -30,10 +31,10 @@ START_BUTTON = [
 @X10.on(events.NewMessage(pattern="/start"))
 async def start(event):              
     if event.is_private:
-        AltBot = await event.client.get_me()
-        bot_name = AltBot.first_name
-        bot_id = AltBot.id
-        TEXT = f"**ʜᴇʏ​ [{event.sender.first_name}](tg://user?id={event.sender.id}),\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})​**\n━━━━━━━━━━━━━━━━━━━\n\n"
+        WBNBot = await event.client.get_me()
+        bot_name = WBNBot.first_name
+        bot_id = WBNBot.id
+        TEXT = f"**ʜᴇʏ ​ [{event.sender.first_name}](tg://user?id={event.sender.id}),\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})​**\n━━━━━━━━━━━━━━━━━━━\n\n"
         TEXT += f"» **ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ​ : [DARK RAVAN](https://t.me/Dark_Ravan_01)**\n\n"
         TEXT += f"» **xʙᴏᴛꜱ ᴠᴇʀsɪᴏɴ :** `M3.3`\n"
         TEXT += f"» **ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `3.11.3`\n"
